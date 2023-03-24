@@ -14,3 +14,4 @@ function checkLocation() {
         });
 }
 /*@ACECLEZ*/
+/*import code: <script src="https://ACECLEZ.github.io/secure-website/location-block.js"></script>   */
