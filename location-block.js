@@ -1,4 +1,4 @@
-function checkLocation() {
+
       fetch('https://api.ipify.org/?format=json')
         .then(response => response.json())
         .then(data => {
@@ -12,6 +12,6 @@ function checkLocation() {
               }
             });
         });
-}
+
 /*@ACECLEZ*/
 /*import code: <script src="https://ACECLEZ.github.io/secure-website/location-block.js"></script>   */
