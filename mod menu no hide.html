@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Draggable Mod Menu</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div class="menu">
+        <div class="menu-header">
+            ATJ Mod Menu
+        </div>
+        <div class="menu-section" id="memory-section">
+            Memory
+        </div>
+        <div class="section-content" id="memory-section-content">
+            <label><input type="checkbox"> Lower CPU Lag</label>
+            <label><input type="checkbox"> Remove browser Ads</label>
+            <label><input type="checkbox"> Remove youtube Ads</label>
+        </div>
+        <div class="menu-section" id="bypass-section">
+            Bypass
+        </div>
+        <div class="section-content" id="bypass-section-content">
+            <label><input type="checkbox"> Bypass Blocksi</label>
+            <label><input type="checkbox"> Bypass Static Website</label>
+        </div>
+        <div class="menu-section" id="others-section">
+            Others
+        </div>
+        <div class="section-content" id="others-section-content">
+            <label><input type="checkbox"> Support Me</label>
+        </div>
+    </div>
+
+    <script>
+    // Make the menu draggable
+const menu = document.querySelector('.menu');
+menu.addEventListener('mousedown', function(event) {
+    let shiftX = event.clientX - menu.getBoundingClientRect().left;
+    let shiftY = event.clientY - menu.getBoundingClientRect().top;
+
+    menu.style.position = 'absolute';
+    menu.style.zIndex = 1000;
+
+    function moveAt(clientX, clientY) {
+        menu.style.left = clientX - shiftX + 'px';
+        menu.style.top = clientY - shiftY + 'px';
+    }
+
+    moveAt(event.clientX, event.clientY);
+
+    function onMouseMove(event) {
+        moveAt(event.clientX, event.clientY);
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+
+    menu.addEventListener('mouseup', function() {
+        document.removeEventListener('mousemove', onMouseMove);
+        menu.onmouseup = null;
+    });
+});
+
+// Expandable sections
+const sections = document.querySelectorAll('.menu-section');
+sections.forEach(function(section) {
+    section.addEventListener('click', function() {
+        const sectionContent = section.nextElementSibling;
+        sectionContent.style.display = sectionContent.style.display === 'none' ? 'block' : 'none';
+    });
+});
+
+    </script>
+</body>
+</html>
+<style>
+
+</style>
