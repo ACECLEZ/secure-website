@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mod Menu</title>
+    <style>
+        /* Mod menu styles */
+        #mod-menu {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: auto;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            padding: 10px;
+            z-index: 1;
+        }
+
+/* CSS for mod menu sections */
+.menu-section {
+    background-color: grey; /* Set background color to black */
+    color: white; /* Set text color to white */
+    cursor: pointer; /* Add cursor pointer on hover */
+    padding: 10px; /* Add some padding */
+    margin-bottom: 5px; /* Add some margin bottom for spacing */
+}
+
+
+        .menu-section-content {
+            display: none;
+            margin-top: 10px;
+        }
+
+        #password-input {
+            display: none;
+            margin-bottom: 10px;
+        }
+
+        #password-btn {
+            display: none;
+        }
+
+        /* Draggable key styles */
+        #draggable-key {
+            cursor: pointer;
+            user-select: none;
+            width: 40px;
+            height: 40px;
+            background-color: #0066cc;
+            color: #fff;
+            text-align: center;
+            line-height: 40px;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Mod menu HTML -->
+    <div id="mod-menu">
+    <h2>AJX Mod Menu</h2>
+        <div class="menu-section">Memory</div>
+        <div class="menu-section-content">
+            <label><input type="checkbox"> Reduce CPU Lag</label><br>
+            <label><input type="checkbox"> Remove browser Ads</label><br>
+            <label><input type="checkbox"> Remove youtube Ads</label>
+        </div>
+        <div class="menu-section">Bypass</div>
+        <div class="menu-section-content">
+            <label><input type="checkbox"> Bypass Blocksi</label><br>
+            <label><input type="checkbox"> Bypass Static Website</label>
+        </div>
+        <div class="menu-section">Others</div>
+        <div class="menu-section-content">
+            <label><input type="checkbox"> Support Me</label>
+        </div>
+    </div>
+
+    <!-- Password input HTML -->
+    <input type="password" id="password-input" placeholder="Enter password">
+    <button id="password-btn">Submit</button>
+
+    <!-- Draggable key HTML -->
+    <div id="draggable-key">S/H</div>
+
+    <script>
+// Password protection
+const passwordInput = document.getElementById('password-input');
+const passwordBtn = document.getElementById('password-btn');
+const modMenu = document.getElementById('mod-menu');
+
+// Add event listener for password button click
+passwordBtn.addEventListener('click', function() {
+    const password = passwordInput.value;
+    if (password === 'password123') {
+        // If password is correct, hide password input and show mod menu
+        passwordInput.style.display = 'none';
+        passwordBtn.style.display = 'none';
+        modMenu.style.display = 'block';
+    } else {
+        // If password is incorrect, show error message
+        alert('Incorrect password. Please try again.');
+    }
+});
+
+// Draggable key
+const draggableKey = document.getElementById('draggable-key');
+
+// Set the draggable key as draggable element
+draggableKey.draggable = true;
+
+// Add event listener for drag start
+draggableKey.addEventListener('dragstart', function(event) {
+    // Set the data that will be transferred during the drag
+    event.dataTransfer.setData('text/plain', 'drag-me');
+});
+
+// Add event listener for drag end
+draggableKey.addEventListener('dragend', function(event) {
+    // Set the position of the draggable key based on the new position after drag
+    draggableKey.style.left = event.clientX + 'px';
+    draggableKey.style.top = event.clientY + 'px';
+});
+
+
+
+// Add event listener for click on mod menu sections
+const sections = document.querySelectorAll('.menu-section');
+sections.forEach(function(section) {
+    section.addEventListener('click', function() {
+        const sectionContent = section.nextElementSibling;
+        sectionContent.style.display = sectionContent.style.display === 'none' ? 'block' : 'none';
+    });
+});
+
+let isModMenuVisible = false; // Track if mod menu is visible
+
+// Add event listener for click on draggable key
+draggableKey.addEventListener('click', function() {
+    if (isModMenuVisible) {
+        // If mod menu is visible, hide it on second click
+        modMenu.style.display = 'none';
+        isModMenuVisible = false;
+    } else {
+        // If mod menu is hidden, show it on first click
+        modMenu.style.display = 'block';
+        isModMenuVisible = true;
+    }
+});
+
+
+
+</script>
