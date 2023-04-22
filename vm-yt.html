@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Vimeo Video Player</title>
+  <title>YouTube Video Player with Proxy</title>
   <style>
     /* Styling for the video player */
     #video-player {
@@ -12,30 +12,52 @@
 </head>
 <body>
   <div id="video-player">
-    <input type="text" id="video-url" placeholder="Enter Vimeo video URL">
+    <input type="text" id="video-url" placeholder="Enter YouTube video URL">
     <button onclick="playVideo()">Play Video</button>
     <div id="player"></div>
   </div>
 
-  <!-- Include the Vimeo Froogaloop library for embedding videos -->
-  <script src="https://f.vimeocdn.com/js/froogaloop2.min.js"></script>
+  <!-- Include the YouTube API JavaScript library -->
+  <script src="https://www.youtube.com/iframe_api"></script>
   <script>
-    // Function to load and play the Vimeo video
+    // Function to load and play the YouTube video
     function playVideo() {
       var videoUrl = document.getElementById('video-url').value;
-      var videoId = getVimeoVideoId(videoUrl);
 
-      // Create a new Vimeo player
-      var player = Froogaloop('#player');
-      player.api('vimeo', videoId).then(function (playerId) {
-        player.play();
-      });
+      // Fetch the YouTube video using a proxy server
+      fetch('/proxy?url=' + encodeURIComponent(videoUrl))
+        .then(response => response.text())
+        .then(data => {
+          var videoId = getYouTubeVideoId(data);
+          if (videoId) {
+            // Create a new YouTube player
+            var player = new YT.Player('player', {
+              height: '360',
+              width: '640',
+              videoId: videoId,
+              events: {
+                'onReady': onPlayerReady,
+              }
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Failed to fetch video:', error);
+        });
     }
 
-    // Function to extract the video ID from the Vimeo URL
-    function getVimeoVideoId(url) {
+    // Callback function when the YouTube player is ready
+    function onPlayerReady(event) {
+      event.target.playVideo();
+    }
+
+    // Function to extract the video ID from the YouTube URL
+    function getYouTubeVideoId(url) {
+      // Modify this function to extract the video ID from the fetched video data
+      // based on the response format of the proxy server
       var videoId = '';
-      var regex = /vimeo\.com\/(?:.*\/)?([0-9]+)/;
+      // Example response format assuming the video ID is extracted as a query parameter
+      var regex = /[?&]v=([^&#]*)/;
       var match = url.match(regex);
       if (match && match[1]) {
         videoId = match[1];
