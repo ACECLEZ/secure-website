@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vimeo Video Player</title>
+  <style>
+    /* Styling for the video player */
+    #video-player {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <div id="video-player">
+    <input type="text" id="video-url" placeholder="Enter Vimeo video URL">
+    <button onclick="playVideo()">Play Video</button>
+    <div id="player"></div>
+  </div>
+
+  <!-- Include the Vimeo Froogaloop library for embedding videos -->
+  <script src="https://f.vimeocdn.com/js/froogaloop2.min.js"></script>
+  <script>
+    // Function to load and play the Vimeo video
+    function playVideo() {
+      var videoUrl = document.getElementById('video-url').value;
+      var videoId = getVimeoVideoId(videoUrl);
+
+      // Create a new Vimeo player
+      var player = Froogaloop('#player');
+      player.api('vimeo', videoId).then(function (playerId) {
+        player.play();
+      });
+    }
+
+    // Function to extract the video ID from the Vimeo URL
+    function getVimeoVideoId(url) {
+      var videoId = '';
+      var regex = /vimeo\.com\/(?:.*\/)?([0-9]+)/;
+      var match = url.match(regex);
+      if (match && match[1]) {
+        videoId = match[1];
+      }
+      return videoId;
+    }
+  </script>
+</body>
+</html>
