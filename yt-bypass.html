@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>YouTube Video Player</title>
+  <style>
+    /* Styling for the video player */
+    #video-player {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <div id="video-player">
+    <input type="text" id="video-url" placeholder="Enter YouTube video URL">
+    <button onclick="playVideo()">Play Video</button>
+    <div id="player"></div>
+  </div>
+
+  <!-- Include the YouTube API JavaScript library -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    // Function to load and play the YouTube video
+    function playVideo() {
+      var videoUrl = document.getElementById('video-url').value;
+      var videoId = getYouTubeVideoId(videoUrl);
+
+      // Create a new YouTube player
+      var player = new YT.Player('player', {
+        height: '360',
+        width: '640',
+        videoId: videoId,
+        events: {
+          'onReady': onPlayerReady,
+        }
+      });
+    }
+
+    // Callback function when the YouTube player is ready
+    function onPlayerReady(event) {
+      event.target.playVideo();
+    }
+
+    // Function to extract the video ID from the YouTube URL
+    function getYouTubeVideoId(url) {
+      var videoId = '';
+      var regex = /(?:\?v=|\/embed\/|\/\d\/|\/vi\/|\/v\/|https:\/\/youtu.be\/)([a-zA-Z0-9_-]{11})(?:\?|&|\/|$)/;
+      var match = url.match(regex);
+      if (match && match[1]) {
+        videoId = match[1];
+      }
+      return videoId;
+    }
+  </script>
+</body>
+</html>
